@@ -145,14 +145,17 @@ angular.module('slick', []).directive('slick', [
         if (scope.initOnload) {
           isInitialized = false;
           return scope.$watch('data', function (newVal, oldVal) {
-            if (newVal != null) {
-              if (isInitialized) {
-                destroySlick();
-              }
-              initializeSlick();
-              return isInitialized = true;
+            if(newVal == null) return false;
+
+            if ( isInitialized )
+            {
+                $(element).removeClass('slick-initialized slick-slider');
+                $(element).find('.slick-list').remove();
             }
-          });
+
+             initializeSlick();
+             return isInitialized = true;
+          }, true);
         } else {
           return initializeSlick();
         }
